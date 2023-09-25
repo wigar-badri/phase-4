@@ -14,7 +14,7 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 
 class User(db.Model, SerializerMixin):
-    __tablename__ = 'users'
+    __tablename__ = 'users_table'
 
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
@@ -24,9 +24,10 @@ class User(db.Model, SerializerMixin):
     #relationship 
     savedPosts = db.relationship('savedPost', back_populates='user')
     posts = association_proxy('savedPosts', 'post')
+    trades = db.relationship("Trade", back_populates = "users")
 
 class Stock(db.Model, SerializerMixin):
-    __tablename__ = "stock_table"
+    __tablename__ = "stocks_table"
     
     id = db.Column(db.Integer, primary_key = True)
     company_name = db.Column(db.String, nullable=False)
@@ -38,7 +39,7 @@ class Stock(db.Model, SerializerMixin):
     serialize_rule = ("-trades.stocks",)
     
 class Post(db.Model, SerializerMixin):
-    __tablename__ = 'posts'
+    __tablename__ = 'posts_table'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
@@ -53,7 +54,7 @@ class Post(db.Model, SerializerMixin):
     serialize_rules = ('-savedPosts.post',)
 
 class savedPost(db.Model, SerializerMixin):
-    __tablename__ = 'savedPosts'
+    __tablename__ = 'savedPosts_table'
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -68,10 +69,13 @@ class savedPost(db.Model, SerializerMixin):
     serialize_rules = ('-user.appearances', '-post.appearances')
 
 class Trade(db.Model, SerializerMixin):
-    __tablename__ = "trade_table"
+    __tablename__ = "trades_table"
     
     id = db.Column(db.Integer, primary_key = True)
+    user_id = db.relationship(db.Integer, db.ForeignKey("users_table.id"))
+    stock_id = db.relationship(db.Integer, db.ForeignKey("stocks_table.id"))
     
+    users = db.relationship("Owner", back_populates = "trades")
     stocks = db.relationship("Stock", back_populates = "trades")
     
     serialize_rule = ("-stocks.trade",)
