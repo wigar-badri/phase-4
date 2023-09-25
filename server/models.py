@@ -24,11 +24,28 @@ class User(db.Model):
 class Post(db.Model):
     pass
 
-class Stock(db.Model):
-    pass
+class Stock(db.Model, SerializerMixin):
+    __tablename__ = "stock_table"
+    
+    id = db.Column(db.Integer, primary_key = True)
+    company_name = db.Column(db.String, nullable=False)
+    symbol = db.Column(db.String, nullable = False)
+    
+    trades = db.relationship("Trade", back_populates = "stocks")
+    user = association_proxy("trades", "user")
+    
+    serialize_rule = ("-trades.stocks",)
 
 class savedPost(db.Model):
     pass
 
-class Trade(db.Model):
-    pass
+class Trade(db.Model, SerializerMixin):
+    __tablename__ = "trade_table"
+    
+    id = db.Column(db.Integer, primary_key = True)
+    
+    stocks = db.relationship("Stock", back_populates = "trades")
+    
+    serialize_rule = ("-stocks.trade",)
+    
+    
