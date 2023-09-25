@@ -21,22 +21,22 @@ class User(db.Model, SerializerMixin):
     last_name= db.Column(db.String, nullable=False)
     level = db.Column(db.Integer, nullable=False)
 
-    #relationship 
+    #relationship
     savedPosts = db.relationship('savedPost', back_populates='user')
     posts = association_proxy('savedPosts', 'post')
 
 class Stock(db.Model, SerializerMixin):
     __tablename__ = "stock_table"
-    
+
     id = db.Column(db.Integer, primary_key = True)
     company_name = db.Column(db.String, nullable=False)
     symbol = db.Column(db.String, nullable = False)
-    
+
     trades = db.relationship("Trade", back_populates = "stocks")
     user = association_proxy("trades", "user")
-    
+
     serialize_rule = ("-trades.stocks",)
-    
+
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
@@ -52,7 +52,7 @@ class Post(db.Model, SerializerMixin):
     #serialization rules
     serialize_rules = ('-savedPosts.post',)
 
-class savedPost(db.Model, SerializerMixin):
+class SavedPost(db.Model, SerializerMixin):
     __tablename__ = 'savedPosts'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -69,11 +69,10 @@ class savedPost(db.Model, SerializerMixin):
 
 class Trade(db.Model, SerializerMixin):
     __tablename__ = "trade_table"
-    
+
     id = db.Column(db.Integer, primary_key = True)
-    
+
     stocks = db.relationship("Stock", back_populates = "trades")
-    
+
     serialize_rule = ("-stocks.trade",)
-    
-    
+
