@@ -21,22 +21,30 @@ class User(db.Model, SerializerMixin):
     last_name= db.Column(db.String, nullable=False)
     level = db.Column(db.Integer, nullable=False)
 
-    #relationship
+    #relationships
     savedPosts = db.relationship('savedPost', back_populates='user')
+    trades = db.relationship("Trade", back_populates = "user")
     posts = association_proxy('savedPosts', 'post')
+    stocks = association_proxy('stocks', 'stock')
+
+    #serialization rules
+    serialize_rules = ('savedPosts.user',)
+    serialize_rules = ('trades.user',)
 
 class Stock(db.Model, SerializerMixin):
-    __tablename__ = "stock_table"
-
+    __tablename__ = "stocks"
+    
     id = db.Column(db.Integer, primary_key = True)
     company_name = db.Column(db.String, nullable=False)
     symbol = db.Column(db.String, nullable = False)
 
-    trades = db.relationship("Trade", back_populates = "stocks")
+    #relationships
+    trades = db.relationship("Trade", back_populates = "stock")
     user = association_proxy("trades", "user")
-
-    serialize_rule = ("-trades.stocks",)
-
+    
+    # serialization rules
+    serialize_rule = ("-trades.stock",)
+    
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
@@ -52,7 +60,7 @@ class Post(db.Model, SerializerMixin):
     #serialization rules
     serialize_rules = ('-savedPosts.post',)
 
-class SavedPost(db.Model, SerializerMixin):
+class savedPost(db.Model, SerializerMixin):
     __tablename__ = 'savedPosts'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -65,14 +73,18 @@ class SavedPost(db.Model, SerializerMixin):
     post = db.relationship('Post', back_populates='savedPosts')
 
     #serialization rules
-    serialize_rules = ('-user.appearances', '-post.appearances')
+    serialize_rules = ('-user.savedPosts', '-post.savedPosts')
 
 class Trade(db.Model, SerializerMixin):
-    __tablename__ = "trade_table"
-
+    __tablename__ = "trades"
+    
     id = db.Column(db.Integer, primary_key = True)
-
+    user_id = db.relationship(db.Integer, db.ForeignKey("users_table.id"))
+    stock_id = db.relationship(db.Integer, db.ForeignKey("stocks_table.id"))
+    
+    # relationships
+    users = db.relationship("Owner", back_populates = "trades")
     stocks = db.relationship("Stock", back_populates = "trades")
-
-    serialize_rule = ("-stocks.trade",)
-
+    
+    # serialization rules
+    serialize_rule = ("-stock.trades",)
