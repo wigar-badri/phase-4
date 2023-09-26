@@ -2,6 +2,7 @@
 
 import csv
 import random
+from faker import Faker
 
 from app import app
 from models import db, User, Post, Stock
