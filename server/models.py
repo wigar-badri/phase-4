@@ -88,5 +88,3 @@ class Trade(db.Model, SerializerMixin):
     
     # serialization rules
     serialize_rule = ("-stock.trades",)
-    
-    
