@@ -54,14 +54,14 @@ class Post(db.Model, SerializerMixin):
     year_published =  db.Column(db.String)
 
     #relationships
-    savedPosts = db.relationship ('savedPost', back_populates='post')
+    saved_posts = db.relationship ('savedPost', back_populates='post')
     users = association_proxy('savedPosts', 'user')
 
     #serialization rules
     serialize_rules = ('-savedPosts.post',)
 
-class savedPost(db.Model, SerializerMixin):
-    __tablename__ = 'savedPosts'
+class SavedPost(db.Model, SerializerMixin):
+    __tablename__ = 'saved_posts'
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -77,14 +77,14 @@ class savedPost(db.Model, SerializerMixin):
 
 class Trade(db.Model, SerializerMixin):
     __tablename__ = "trades"
-    
+
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.relationship(db.Integer, db.ForeignKey("users_table.id"))
     stock_id = db.relationship(db.Integer, db.ForeignKey("stocks_table.id"))
-    
+
     # relationships
-    users = db.relationship("Owner", back_populates = "trades")
-    stocks = db.relationship("Stock", back_populates = "trades")
-    
+    user = db.relationship("Owner", back_populates = "trades")
+    stock = db.relationship("Stock", back_populates = "trades")
+
     # serialization rules
     serialize_rule = ("-stock.trades",)
