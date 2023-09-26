@@ -55,6 +55,8 @@ def get_user_posts_all(user_id:int):
     except AttributeError:
         return make_response({'error' : f'404 user-{id} posts not found'}, 404)
 
+# FAVORITE POST #
+# @app.post('/')
 
 ## ----- STOCK ROUTES ----- ##
 
