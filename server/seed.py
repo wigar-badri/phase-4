@@ -2,7 +2,11 @@
 
 import csv
 import random
+
 from faker import Faker
+#from math import round_nearest
+from random import choice as rc
+from random import uniform as runif
 
 from app import app
 from models import db, User, Post, Stock
@@ -13,6 +17,8 @@ def create_users():
     users = []
     for _ in range (10):
         user = User(
+            username = fake.email(),
+            password = fake.address(),
             first_name = fake.first_name(),
             last_name = fake.last_name(),
             level = random.randint(1, 3)
@@ -23,7 +29,7 @@ def create_posts():
     posts = []
     for _ in range (10):
         post = Post(
-            title = fake.title(), 
+            title = fake.title(),
             author = fake.name(),
             year_published = fake.year(),
         )
@@ -35,7 +41,8 @@ def create_stocks():
     for _ in range (5):
         stock = Stock(
             company_name = fake.company(),
-            symbol = random.choice(fake_stock_symbols)
+            symbol = rc(fake_stock_symbols),
+            current_value = round((runif(0, 10000)), 3)
         )
         stocks.append(stock)
 
@@ -63,4 +70,3 @@ if __name__ == '__main__':
         db.session.commit()
 
         print('Done seeding !!')
-        

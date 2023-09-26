@@ -17,79 +17,80 @@ class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     first_name = db.Column(db.String, nullable=False)
     last_name= db.Column(db.String, nullable=False)
     level = db.Column(db.Integer, nullable=False)
 
-    #relationships
-    saved_posts = db.relationship('savedPost', back_populates='user')
-    trades = db.relationship("Trade", back_populates = "user")
+    # relationships & associations
+    saved_posts = db.relationship('SavedPost', back_populates='user')
+    posts = association_proxy('saved_posts', 'post')
 
-    #associations
-    posts = association_proxy('savedPosts', 'post')
-    stocks = association_proxy('stocks', 'stock')
-
-    #serialization rules
-    serialize_rules = ('savedPosts.user',)
-    serialize_rules = ('trades.user',)
-
-class Stock(db.Model, SerializerMixin):
-    __tablename__ = "stocks"
-
-    id = db.Column(db.Integer, primary_key = True)
-    company_name = db.Column(db.String, nullable=False)
-    symbol = db.Column(db.String, nullable = False)
-    current_value = db.Column(db.Float)
-
-    #relationships
-    trades = db.relationship("Trade", back_populates = "stock")
-    user = association_proxy("trades", "user")
+    trades = db.relationship('Trade', back_populates='user')
+    stocks = association_proxy('trades', 'stock')
 
     # serialization rules
-    serialize_rule = ("-trades.stock",)
+    serialize_rules = ('-saved_posts.user', '-trades.user')
+
+class Stock(db.Model, SerializerMixin):
+    __tablename__ = 'stocks'
+
+    id = db.Column(db.Integer, primary_key = True)
+    company_name = db.Column(db.String, nullable=False, unique=True)
+    symbol = db.Column(db.String, nullable = False, unique=True)
+    current_value = db.Column(db.Float)
+
+    # relationships & associations
+    trades = db.relationship('Trade', back_populates='stock')
+    users = association_proxy('trades', 'user')
+
+    # serialization rules
+    serialize_rules = ('-trades.stock',)
 
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, nullable=False)
+    title = db.Column(db.String, nullable=False, unique=True)
     author = db.Column(db.String, nullable=False)
     year_published = db.Column(db.Integer, nullable=False)
 
-    #relationships
-    saved_posts = db.relationship ('savedPost', back_populates='post')
-    users = association_proxy('savedPosts', 'user')
+    # relationships & associations
+    saved_posts = db.relationship ('SavedPost', back_populates='post')
+    users = association_proxy('saved_posts', 'user')
 
-    #serialization rules
-    serialize_rules = ('-savedPosts.post',)
+    # serialization rules
+    serialize_rules = ('-saved_posts.post',)
 
 class SavedPost(db.Model, SerializerMixin):
     __tablename__ = 'saved_posts'
 
     id = db.Column(db.Integer, primary_key=True)
 
-    # relationships
+    # foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
-    user = db.relationship('User', back_populates='savedPosts')
-    post = db.relationship('Post', back_populates='savedPosts')
-
-    #serialization rules
-    serialize_rules = ('-user.savedPosts', '-post.savedPosts')
-
-class Trade(db.Model, SerializerMixin):
-    __tablename__ = "trades"
-
-    id = db.Column(db.Integer, primary_key = True)
-    user_id = db.relationship(db.Integer, db.ForeignKey("users_table.id"))
-    stock_id = db.relationship(db.Integer, db.ForeignKey("stocks_table.id"))
-
     # relationships
-    user = db.relationship("Owner", back_populates = "trades")
-    stock = db.relationship("Stock", back_populates = "trades")
+    user = db.relationship('User', back_populates='saved_posts')
+    post = db.relationship('Post', back_populates='saved_posts')
 
     # serialization rules
-    serialize_rule = ("-stock.trades",)
+    serialize_rules = ('-user.saved_posts', '-post.saved_posts')
+
+class Trade(db.Model, SerializerMixin):
+    __tablename__ = 'trades'
+
+    id = db.Column(db.Integer, primary_key = True)
+
+    # foreign keys
+    user_id = db.relationship(db.Integer, db.ForeignKey('users.id'))
+    stock_id = db.relationship(db.Integer, db.ForeignKey('stocks.id'))
+
+    # relationships
+    user = db.relationship('User', back_populates = 'trades')
+    stock = db.relationship('Stock', back_populates = 'trades')
+
+    # serialization rules
+    serialize_rules = ('-stock.trades', '-user.trades')

@@ -56,7 +56,7 @@ def get_user_posts_all(user_id:int):
         return make_response({'error' : f'404 user-{id} posts not found'}, 404)
 
 # FAVORITE POST #
-# @app.post('/')
+@app.post('/')
 
 ## ----- STOCK ROUTES ----- ##
 
