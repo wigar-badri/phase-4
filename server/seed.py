@@ -2,11 +2,13 @@
 
 import csv
 import random
+import string
 
 from faker import Faker
 #from math import round_nearest
 from random import choice as rc
 from random import uniform as runif
+from string import ascii_uppercase
 
 from app import app
 from models import db, User, Post, Stock
@@ -25,26 +27,36 @@ def create_users():
         )
         users.append(user)
 
+    return users
+
 def create_posts():
     posts = []
     for _ in range (10):
         post = Post(
-            title = fake.title(),
+            title = fake.country(),
             author = fake.name(),
             year_published = fake.year(),
         )
         posts.append(post)
 
+    return posts
+
+def stock_generator(size=4, chars=ascii_uppercase):
+    return ''.join(random.choice(chars) for _ in range(size))
+
 def create_stocks():
     stocks = []
-    fake_stock_symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "FB", "NFLX", "NVDA", "INTC", "IBM"]
+    # fake_stock_symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "FB", "NFLX", "NVDA", "INTC", "IBM"]
+
     for _ in range (5):
         stock = Stock(
             company_name = fake.company(),
-            symbol = rc(fake_stock_symbols),
+            symbol = stock_generator(),
             current_value = round((runif(0, 10000)), 3)
         )
         stocks.append(stock)
+
+    return stocks
 
 if __name__ == '__main__':
 

@@ -37,8 +37,8 @@ class Stock(db.Model, SerializerMixin):
     __tablename__ = 'stocks'
 
     id = db.Column(db.Integer, primary_key = True)
-    company_name = db.Column(db.String, nullable=False, unique=True)
-    symbol = db.Column(db.String, nullable = False, unique=True)
+    company_name = db.Column(db.String, nullable=False)
+    symbol = db.Column(db.String, nullable = False)
     current_value = db.Column(db.Float)
 
     # relationships & associations
@@ -52,7 +52,7 @@ class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, nullable=False, unique=True)
+    title = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
     year_published = db.Column(db.Integer, nullable=False)
 
@@ -85,8 +85,8 @@ class Trade(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
 
     # foreign keys
-    user_id = db.relationship(db.Integer, db.ForeignKey('users.id'))
-    stock_id = db.relationship(db.Integer, db.ForeignKey('stocks.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'))
 
     # relationships
     user = db.relationship('User', back_populates = 'trades')
