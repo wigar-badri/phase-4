@@ -11,13 +11,14 @@ from random import uniform as runif
 from string import ascii_uppercase
 
 from app import app
-from models import db, User, Post, Stock
+from models import db, User, Post, Stock, Trade, SavedPost
 
 fake = Faker()
 
-def create_users():
+
+def create_users(rows):
     users = []
-    for _ in range (10):
+    for _ in range(rows):
         user = User(
             username = fake.email(),
             password = fake.address(),
@@ -29,9 +30,10 @@ def create_users():
 
     return users
 
-def create_posts():
+
+def create_posts(rows):
     posts = []
-    for _ in range (10):
+    for _ in range(rows):
         post = Post(
             title = fake.country(),
             author = fake.name(),
@@ -41,15 +43,17 @@ def create_posts():
 
     return posts
 
-def create_stocks():
+
+def create_stocks(rows):
 
     def stock_generator(size=4, chars=ascii_uppercase):
         return ''.join(rc(chars) for _ in range(size))
 
     stocks = []
+
     # fake_stock_symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "FB", "NFLX", "NVDA", "INTC", "IBM"]
 
-    for _ in range (5):
+    for _ in range(rows):
         stock = Stock(
             company_name = fake.company(),
             symbol = stock_generator(),
@@ -59,27 +63,64 @@ def create_stocks():
 
     return stocks
 
+def create_trades(rows, users, stocks):
+    trades = []
+    for _ in range(rows):
+        tr = Trade(
+            user_id = rc(users).id,
+            stock_id = rc(stocks).id
+        )
+        trades.append(tr)
+
+    return trades
+
+
+def create_saved_posts(rows, users, posts):
+    saved_posts = []
+    for _ in range(rows):
+        sp = SavedPost(
+            user_id = rc(users).id,
+            post_id = rc(posts).id
+        )
+        saved_posts.append(sp)
+
+    return saved_posts
+
+
 if __name__ == '__main__':
 
     with app.app_context():
+
         print ('Clearing database ...')
         User.query.delete()
-        Stock.query.delete()
         Post.query.delete()
+        Stock.query.delete()
+        Trade.query.delete()
+        SavedPost.query.delete()
 
         print('Seeding users ...')
-        users = create_users()
+        users = create_users(10)
         db.session.add_all(users)
         db.session.commit()
 
-        print('Seeding stocks ...')
-        stocks = create_stocks()
-        db.session.add_all(stocks)
-        db.session.commit()
-
         print('Seeding posts ...')
-        posts = create_posts()
+        posts = create_posts(10)
         db.session.add_all(posts)
         db.session.commit()
 
-        print('Done seeding !!')
+        print('Seeding stocks ...')
+        stocks = create_stocks(5)
+        db.session.add_all(stocks)
+        db.session.commit()
+
+        print('Seeding trades ...')
+        trades = create_trades(20, users, stocks)
+        db.session.add_all(trades)
+        db.session.commit()
+
+        print('Seeding saved_posts ...')
+        saved_posts = create_saved_posts(20, users, posts)
+        db.session.add_all(saved_posts)
+        db.session.commit()
+
+        print('Done seeding !!!')
