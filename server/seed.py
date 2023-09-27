@@ -41,10 +41,11 @@ def create_posts():
 
     return posts
 
-def stock_generator(size=4, chars=ascii_uppercase):
-    return ''.join(random.choice(chars) for _ in range(size))
-
 def create_stocks():
+
+    def stock_generator(size=4, chars=ascii_uppercase):
+        return ''.join(rc(chars) for _ in range(size))
+
     stocks = []
     # fake_stock_symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "FB", "NFLX", "NVDA", "INTC", "IBM"]
 
