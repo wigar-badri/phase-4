@@ -31,27 +31,28 @@ def create_users(rows):
 
 def create_posts(rows):
     posts = []
-    
+
     # Opening JSON file
-    f = open('articles.json')
- 
+    # f = open('articles.json')
+
     # returns JSON object as
     # a dictionary
-    data = json.load(f)
- 
+    # data = json.load(f)
+
     # Iterating through the json
     # list
-    for i in data['articles']:
+    # for i in data['articles']:
+    for _ in range(rows):
         post = Post(
-            title = i['title'],
-            author = i['author'],
-            content = i['content'],
-            year_published = fake.year()
+            title = fake.country(),
+            author = fake.name(),
+            year_published = fake.year(),
+            content = fake.address()
         )
         posts.append(post)
- 
+
     # Closing file
-    f.close()
+    # f.close()
     return posts
 
 def create_stocks(rows):
@@ -108,12 +109,12 @@ if __name__ == '__main__':
         db.session.commit()
 
         print('Seeding posts ...')
-        posts = create_posts()
+        posts = create_posts(15)
         db.session.add_all(posts)
         db.session.commit()
 
         print('Seeding stocks ...')
-        stocks = create_stocks()
+        stocks = create_stocks(5)
         db.session.add_all(stocks)
         db.session.commit()
 

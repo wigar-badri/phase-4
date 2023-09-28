@@ -94,17 +94,27 @@ def get_user_by_id(id:int):
         return make_response({'error' : f'404 user-{id} not found'}, 404)
 
 # GET ALL USER POSTS #
-@app.get('/users/<int:user_id>/posts')
-def get_user_posts_all(user_id:int):
+@app.get('/users/<int:id>/posts')
+def get_user_posts_all(id:int):
     try:
-        user = User.query.filter(User.id == user_id).first()
+        user = User.query.filter(User.id == id).first()
         user_posts_list = [post.to_dict() for post in user.posts]
         return make_response(jsonify(user_posts_list), 200)
     except AttributeError:
         return make_response({'error' : f'404 user-{id} posts not found'}, 404)
 
 # FAVORITE POST #
-@app.post('/')
+@app.post('/users/<int:id>/')
+def favorite_post():
+    data = request.json
+    user = User.query.filter(User.username == data['username']).first()
+    data['password']
+
+    if user and bcrypt.check_password_hash(user.password_hash, data['password']):
+        session['user_id'] = user.id
+        return make_response(jsonify(user.to_dict()), 202)
+    else:
+        return make_response(jsonify({ 'error': 'Invalid username or password' }), 401)
 
 ## ----- STOCK ROUTES ----- ##
 

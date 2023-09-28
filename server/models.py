@@ -22,7 +22,7 @@ class User(db.Model, SerializerMixin):
     first_name = db.Column(db.String, nullable=False)
     last_name= db.Column(db.String, nullable=False)
     level = db.Column(db.Integer, nullable=False)
-    balance = db.Column(db.Float)
+    balance = db.Column(db.Float, nullable=False)
 
     # relationships & associations
     saved_posts = db.relationship('SavedPost', back_populates='user')
@@ -40,7 +40,7 @@ class Stock(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
     company_name = db.Column(db.String, nullable=False)
     symbol = db.Column(db.String, nullable = False)
-    current_value = db.Column(db.Float)
+    current_value = db.Column(db.Float, nullable=False)
 
     # relationships & associations
     trades = db.relationship('Trade', back_populates='stock')
@@ -55,8 +55,8 @@ class Post(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
-    content = db.Column(db.String, nullable = False)
     year_published = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.String, nullable = False)
 
 
     # relationships & associations
@@ -89,8 +89,10 @@ class Trade(db.Model, SerializerMixin):
 
     # foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_balance = db.Column(db.Float, db.ForeignKey('users.balance'))
     stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'))
-    amount = db.Column(db.Float)
+    stock_current_value = db.Column(db.Float, db.ForeignKey('stocks.current_value'))
+    amount = db.Column(db.Float, nullable=False)
 
     # relationships
     user = db.relationship('User', back_populates = 'trades')
@@ -101,6 +103,6 @@ class Trade(db.Model, SerializerMixin):
 
     @validates('amount')
     def validate_amount(self, key, amount):
-        if amount > self.user.balance or amount > self.stock.current_value:
+        if amount > self.user_balance or amount > self.stock_current_value:
             raise ValueError(f'{amount} : This amount is too high. Please select an amount that is lower than both your balance, and the current value of the stock.')
         return amount
