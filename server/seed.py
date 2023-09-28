@@ -5,16 +5,14 @@ import random
 import string
 
 from faker import Faker
-#from math import round_nearest
 from random import choice as rc
-from random import uniform as runif
+from random import uniform as randunif
 from string import ascii_uppercase
 
 from app import app
 from models import db, User, Post, Stock, Trade, SavedPost
 
 fake = Faker()
-
 
 def create_users(rows):
     users = []
@@ -24,12 +22,11 @@ def create_users(rows):
             password = fake.address(),
             first_name = fake.first_name(),
             last_name = fake.last_name(),
-            level = random.randint(1, 3)
+            level = random.randint(1, 3),
+            balance = round((randunif(0, 10000)), 2)
         )
         users.append(user)
-
     return users
-
 
 def create_posts(rows):
     posts = []
@@ -38,42 +35,37 @@ def create_posts(rows):
             title = fake.country(),
             author = fake.name(),
             year_published = fake.year(),
+            content = fake.address()
         )
         posts.append(post)
-
     return posts
 
-
 def create_stocks(rows):
-
     def stock_generator(size=4, chars=ascii_uppercase):
         return ''.join(rc(chars) for _ in range(size))
 
     stocks = []
-
-    # fake_stock_symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "FB", "NFLX", "NVDA", "INTC", "IBM"]
-
     for _ in range(rows):
         stock = Stock(
             company_name = fake.company(),
             symbol = stock_generator(),
-            current_value = round((runif(0, 10000)), 3)
+            current_value = round((randunif(0, 10000)), 3)
         )
         stocks.append(stock)
-
     return stocks
 
 def create_trades(rows, users, stocks):
     trades = []
     for _ in range(rows):
+        user = rc(users)
+        stock = rc(stocks)
         tr = Trade(
-            user_id = rc(users).id,
-            stock_id = rc(stocks).id
+            user_id = user.id,
+            stock_id = stock.id,
+            amount = round((randunif(0, (user.balance if user.balance < stock.current_value else stock.current_value))), 2)
         )
         trades.append(tr)
-
     return trades
-
 
 def create_saved_posts(rows, users, posts):
     saved_posts = []
@@ -83,9 +75,7 @@ def create_saved_posts(rows, users, posts):
             post_id = rc(posts).id
         )
         saved_posts.append(sp)
-
     return saved_posts
-
 
 if __name__ == '__main__':
 

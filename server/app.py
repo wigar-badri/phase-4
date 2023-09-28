@@ -12,6 +12,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
+bcrypt = Bcrypt(app)
+
 migrate = Migrate(app, db)
 
 db.init_app(app)
@@ -22,6 +24,52 @@ db.init_app(app)
 @app.route("/")
 def index():
     return "<h1>HOME PAGE</h1>"
+
+
+## ----- USER CREATION, LOGIN, & SESSION ----- ##
+
+# USER SIGNUP #
+@app.post('/users')
+def create_user():
+    try:
+        data = request.json
+        password_hash = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+        new_user = User(username=data['username'], password_hash=password_hash)
+        db.session.add(new_user)
+        db.session.commit()
+        session['user_id'] = new_user.id
+        return make_response(jsonify(new_user.to_dict()), 201)
+    except Exception as e:
+        return make_response(jsonify({ 'error': str(e) }), 406)
+
+# SESSION LOGIN #
+@app.post('/login')
+def login():
+    data = request.json
+    user = User.query.filter(User.username == data['username']).first()
+    data['password']
+
+    if user and bcrypt.check_password_hash(user.password_hash, data['password']):
+        session['user_id'] = user.id
+        return make_response(jsonify(user.to_dict()), 202)
+    else:
+        return make_response(jsonify({ 'error': 'Invalid username or password' }), 401)
+
+# LOGOUT #
+@app.delete('/logout')
+def logout():
+    session.pop('user_id')
+    return make_response(jsonify({}), 204)
+
+# CHECK SESSION #
+@app.get('/check_session')
+def check_session():
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.filter(User.id == user_id).first()
+        return make_response(jsonify(user.to_dict()), 200)
+    else:
+        return make_response(jsonify({}), 401)
 
 
 ## ----- USER ROUTES ----- ##
