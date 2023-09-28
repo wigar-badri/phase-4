@@ -54,7 +54,7 @@ class Post(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
-    year_published = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.String, nullable = False)
 
     # relationships & associations
     saved_posts = db.relationship ('SavedPost', back_populates='post')

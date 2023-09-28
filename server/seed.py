@@ -3,6 +3,7 @@
 import csv
 import random
 import string
+import json
 
 from faker import Faker
 #from math import round_nearest
@@ -14,7 +15,6 @@ from app import app
 from models import db, User, Post, Stock, Trade, SavedPost
 
 fake = Faker()
-
 
 def create_users(rows):
     users = []
@@ -31,15 +31,28 @@ def create_users(rows):
     return users
 
 
-def create_posts(rows):
+def create_posts():
     posts = []
-    for _ in range(rows):
+    
+    # Opening JSON file
+    f = open('articles.json')
+ 
+    # returns JSON object as
+    # a dictionary
+    data = json.load(f)
+ 
+    # Iterating through the json
+    # list
+    for i in data['articles']:
         post = Post(
-            title = fake.country(),
-            author = fake.name(),
-            year_published = fake.year(),
+            title = i['title'],
+            author = i['author'],
+            content = i['content'],
         )
         posts.append(post)
+ 
+    # Closing file
+    f.close()
 
     return posts
 
@@ -104,12 +117,12 @@ if __name__ == '__main__':
         db.session.commit()
 
         print('Seeding posts ...')
-        posts = create_posts(10)
+        posts = create_posts()
         db.session.add_all(posts)
         db.session.commit()
 
         print('Seeding stocks ...')
-        stocks = create_stocks(5)
+        stocks = create_stocks()
         db.session.add_all(stocks)
         db.session.commit()
 
