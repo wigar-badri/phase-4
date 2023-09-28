@@ -22,6 +22,7 @@ class User(db.Model, SerializerMixin):
     first_name = db.Column(db.String, nullable=False)
     last_name= db.Column(db.String, nullable=False)
     level = db.Column(db.Integer, nullable=False)
+    balance = db.Column(db.Float)
 
     # relationships & associations
     saved_posts = db.relationship('SavedPost', back_populates='user')
@@ -55,6 +56,8 @@ class Post(db.Model, SerializerMixin):
     title = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
     content = db.Column(db.String, nullable = False)
+    year_published = db.Column(db.Integer, nullable=False)
+
 
     # relationships & associations
     saved_posts = db.relationship ('SavedPost', back_populates='post')
@@ -87,6 +90,7 @@ class Trade(db.Model, SerializerMixin):
     # foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'))
+    amount = db.Column(db.Float)
 
     # relationships
     user = db.relationship('User', back_populates = 'trades')
@@ -94,3 +98,9 @@ class Trade(db.Model, SerializerMixin):
 
     # serialization rules
     serialize_rules = ('-stock.trades', '-user.trades')
+
+    @validates('amount')
+    def validate_amount(self, key, amount):
+        if amount > self.user.balance or amount > self.stock.current_value:
+            raise ValueError(f'{amount} : This amount is too high. Please select an amount that is lower than both your balance, and the current value of the stock.')
+        return amount
