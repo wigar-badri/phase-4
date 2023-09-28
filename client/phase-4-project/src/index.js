@@ -1,7 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+/* React Router 
+---------------------------------------------------------------------
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+const router = createBrowserRouter([
+  {},])
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render( <RouterProvider router={router} /> );
+---------------------------------------------------------------------
+'Note: Do not use React-Dom in React.StrictMode, please use the RouterProvider' */
+
+// COMPONENTS // 
 import './index.css';
 import App from './components/App';
+// 'More missing components here' //
+
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
