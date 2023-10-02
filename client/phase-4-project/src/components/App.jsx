@@ -1,40 +1,39 @@
-import { useEffect, useState } from 'react';
 import './App.css';
+// import { useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom'
 
-function App() {
+import Heading from './Heading';
+import Footer from './Footer';
 
-  const [data, setData] = useState([{}])
+// const URL = '/p4/fine-ed'
 
-  useEffect (()=>{
-    fetch("/users")
-    .then(res => res.json())
-    .then(data => {
-      setData(data)
-      console.log(data)
-    }
-    )
-  }, [])
+const POST_HEADERS = {
+  'Content-Type': 'application/json',
+  'Accepts': 'application/json'
+}
 
-  const mappedUsers = data.map(users=> (
-    <div key={users.id} >
-    Name: <h2>{users.first_name}</h2>
-    Last name: <h2>{users.last_name}</h2>
-    <h2>User: {users.username}</h2>
-    </div>))
+export async function attemptSignup(userInfo) {
+	const res = await fetch('/users', {
+	  method: 'POST',
+	  headers: POST_HEADERS,
+	  body: JSON.stringify(userInfo)
+	})
+	if (res.ok) {
+	  const data = await res.json()
+	  setCurrentUser(data)
+	}
+  else {
+	  alert('Invalid sign up')
+	}
+}
+
+function App({currentUser}) {
+
   return (
     <div className="App">
-      <header className="App-header">
-        
-      </header>
-      <div>
-        <h3>Page content</h3>
-        <div>
-          {mappedUsers}
-        </div>
-      </div>
-      <footer>
-        <p>client side ready to use</p>
-      </footer>
+      <Heading currentUser={currentUser} />
+      <Outlet />
+      <Footer />
     </div>
   );
 }
