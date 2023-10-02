@@ -75,8 +75,8 @@ def create_trades(rows, users, stocks):
         user = rc(users)
         stock = rc(stocks)
         tr = Trade(
-            user_id = user.id,
-            stock_id = stock.id,
+            username = user.username,
+            stock_symbol = stock.symbol,
             amount = round((randunif(0, (user.balance if user.balance < stock.current_value else stock.current_value))), 2)
         )
         trades.append(tr)
@@ -86,8 +86,8 @@ def create_saved_posts(rows, users, posts):
     saved_posts = []
     for _ in range(rows):
         sp = SavedPost(
-            user_id = rc(users).id,
-            post_id = rc(posts).id
+            username = rc(users).username,
+            post_title = rc(posts).title
         )
         saved_posts.append(sp)
     return saved_posts

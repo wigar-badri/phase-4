@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-from sqlalchemy.orm import validates
+# from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 
@@ -72,8 +72,8 @@ class SavedPost(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
 
     # foreign keys
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    username = db.Column(db.Integer, db.ForeignKey('users.username'))
+    post_title = db.Column(db.Integer, db.ForeignKey('posts.title'))
 
     # relationships
     user = db.relationship('User', back_populates='saved_posts')
@@ -88,10 +88,8 @@ class Trade(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
 
     # foreign keys
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user_balance = db.Column(db.Float, db.ForeignKey('users.balance'))
-    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'))
-    stock_current_value = db.Column(db.Float, db.ForeignKey('stocks.current_value'))
+    username = db.Column(db.Integer, db.ForeignKey('users.username'))
+    stock_symbol = db.Column(db.Integer, db.ForeignKey('stocks.symbol'))
     amount = db.Column(db.Float, nullable=False)
 
     # relationships
@@ -101,8 +99,8 @@ class Trade(db.Model, SerializerMixin):
     # serialization rules
     serialize_rules = ('-stock.trades', '-user.trades')
 
-    @validates('amount')
-    def validate_amount(self, key, amount):
-        if amount > self.user_balance or amount > self.stock_current_value:
-            raise ValueError(f'{amount} : This amount is too high. Please select an amount that is lower than both your balance, and the current value of the stock.')
-        return amount
+    # @validates('amount')
+    # def validate_amount(self, key, amount, user=user, stock=stock):
+    #     if amount > user.balance or amount > stock.current_value:
+    #         raise ValueError(f'{amount} : This amount is too high. Please select an amount that is lower than both your balance, and the current value of the stock.')
+    #     return amount
