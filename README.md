@@ -3,7 +3,7 @@ This is our phase 4 final project. It is a financial literacy and stock exchange
 
 ## Backend SetUp
 
-To get the server side running run the command `pipenv shell`, make sure you `cd` into the `server` directory. Start the backend server using the `python app.py` or `python3 app.py`, to  get new info into the database try `flask db migrate` then `flask db upgrade head`, in order to get the new info integrated to the desired table.
+To get the server side running run the command `pipenv install && pipenv shell`, make sure you `cd` into the `server` directory. Start the backend server using the `python app.py` or `python3 app.py`, to  get new info into the database try `flask db migrate` then `flask db upgrade head`, in order to get the new info integrated to the desired table.
 
 ### Seed provided to get some provisional data for testing purposes
 
