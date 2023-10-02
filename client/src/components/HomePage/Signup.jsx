@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Form } from 'semantic-ui-react'
 
 export default function SignUp ({attemptSignup}) {
 
@@ -25,50 +24,52 @@ export default function SignUp ({attemptSignup}) {
 
 	// RENDER //
     return (
-		<Form onSubmit={handleSubmitNewUser}>
+		<form onSubmit={handleSubmitNewUser}>
 
 			<h2>Welcome, new user! Enter your details below.</h2>
 
-			<Form.Input
+			<label for='username'>Username: </label>
+			<input
 				type="text"
-				label='Username: '
-				name="username"
 				id="username"
+				name="username"
+				placeholder='username'
 				value={newUserDetails.username}
 				onChange={handleInputChange}
 			/>
 
-			<Form.Input
+			<label for='password'>Username: </label>
+			<input
 				type="text"
-				label='Password: '
-				name="password"
 				id="password"
+				name="password"
+				placeholder='password'
 				value={newUserDetails.password}
 				onChange={handleInputChange}
 			/>
 
-			<Form.Input
+			<label for='password'>Username: </label>
+			<input
 				type="text"
-				label='First Name: '
-				name="first_name"
 				id="first_name"
+				name="first_name"
+				placeholder='first name'
 				value={newUserDetails.first_name}
 				onChange={handleInputChange}
-			/>
+			/><br/>
 
-			<Form.Input
+			<label for='password'>Username: </label>
+			<input
 				type="text"
-				label='Last Name: '
-				name="last_name"
 				id="last_name"
+				name="last_name"
+				placeholder='last name'
 				value={newUserDetails.last_name}
 				onChange={handleInputChange}
-			/>
+			/><br/>
 
-			<Form.Button type="submit" className="ui button centered in form">
-				Log In
-			</Form.Button>
+			<button type="submit" value="Sign Up" />
 
-		</Form>
+		</form>
     )
 }

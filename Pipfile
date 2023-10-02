@@ -13,6 +13,7 @@ pytest = "*"
 flask-restful = "*"
 sqlalchemy-serializer = "*"
 flask = "*"
+flask-bcrypt = '*'
 honcho = "*"
 
 [dev-packages]

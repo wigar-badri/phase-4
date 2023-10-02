@@ -1,5 +1,6 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import 'react-dom'
+// import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom'
 
 import Heading from './Heading';

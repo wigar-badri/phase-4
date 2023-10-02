@@ -72,8 +72,8 @@ class SavedPost(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
 
     # foreign keys
-    username = db.Column(db.Integer, db.ForeignKey('users.username'))
-    post_title = db.Column(db.Integer, db.ForeignKey('posts.title'))
+    username = db.Column(db.String, db.ForeignKey('users.username'))
+    post_title = db.Column(db.String, db.ForeignKey('posts.title'))
 
     # relationships
     user = db.relationship('User', back_populates='saved_posts')
@@ -88,8 +88,8 @@ class Trade(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
 
     # foreign keys
-    username = db.Column(db.Integer, db.ForeignKey('users.username'))
-    stock_symbol = db.Column(db.Integer, db.ForeignKey('stocks.symbol'))
+    username = db.Column(db.String, db.ForeignKey('users.username'))
+    stock_symbol = db.Column(db.String, db.ForeignKey('stocks.symbol'))
     amount = db.Column(db.Float, nullable=False)
 
     # relationships

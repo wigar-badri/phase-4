@@ -1,29 +1,29 @@
-import { Menu } from "semantic-ui-react"
+import { Link } from 'react-router-dom'
 
 export default function NavBar({ currentUser }) {
     return(
-        <Menu inverted widths={6}>
-            <Menu.Item href="/">
+        <div>
+            <Link to="/">
                 Home
-            </Menu.Item>
-			<Menu.Item href={currentUser ? `dashboard` : "/login"}>
+            </Link>
+			<Link to={currentUser ? `dashboard` : "/login"}>
                 Log In
-            </Menu.Item>
-			<Menu.Item href={currentUser ? `dashboard` : "/signup"}>
+            </Link>
+			<Link to={currentUser ? `dashboard` : "/signup"}>
                 Sign Up
-            </Menu.Item>
-			<Menu.Item href={currentUser ? `dashboard` : "/"}>
+            </Link>
+			<Link to={currentUser ? `dashboard` : "/"}>
                 Dashboard
-            </Menu.Item>
-            <Menu.Item href="/users">
+            </Link>
+            <Link to="/users">
                 Users
-            </Menu.Item>
-            <Menu.Item href="/stocks">
+            </Link>
+            <Link to="/stocks">
                 Stocks
-            </Menu.Item>
-            <Menu.Item href="/posts">
+            </Link>
+            <Link to="/posts">
                 Posts
-            </Menu.Item>
-        </Menu>
+            </Link>
+        </div>
     )
 }

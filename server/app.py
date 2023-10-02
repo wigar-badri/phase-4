@@ -3,7 +3,7 @@
 from flask import Flask, jsonify, request, session, make_response
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
-from flask_cors import CORS
+# from flask_cors import CORS
 
 from models import db, User, Stock, Post
 
@@ -13,14 +13,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
-CORS(app)
-
-bcrypt = Bcrypt(app)
+# CORS(app)
 
 migrate = Migrate(app, db)
 
 db.init_app(app)
 
+bcrypt = Bcrypt(app)
 
 ## ----- HOME PAGE ----- ##
 
@@ -37,7 +36,14 @@ def create_user():
     try:
         data = request.json
         password_hash = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-        new_user = User(username=data['username'], password_hash=password_hash)
+        new_user = User(
+            username=data['username'],
+            password=password_hash,
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            level=data['level'],
+            balance=data['balance']
+        )
         db.session.add(new_user)
         db.session.commit()
         session['user_id'] = new_user.id
@@ -52,7 +58,7 @@ def login():
     user = User.query.filter(User.username == data['username']).first()
     data['password']
 
-    if user and bcrypt.check_password_hash(user.password_hash, data['password']):
+    if user and bcrypt.check_password_hash(user.password, data['password']):
         session['user_id'] = user.id
         return make_response(jsonify(user.to_dict()), 202)
     else:

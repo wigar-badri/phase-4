@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { Form } from 'semantic-ui-react'
 
 export default function Login() {
 
@@ -28,31 +27,33 @@ export default function Login() {
   // RENDER //
 
   return (
-    <Form className='user-form' onSubmit={handleSubmit}>
+    <form className='user-form' onSubmit={handleSubmit}>
 
       <h2>Welcome, returning user! Please enter your login information below.</h2>
 
-      <Form.Input
+      <label for='username'>Username: </label>
+      <input
         type="text"
-        label='Username: '
-        onChange={handleChangeUsername}
-        value={username}
+        id='username'
+        name='username'
         placeholder='username'
+        value={username}
+        onChange={handleChangeUsername}
       />
 
-      <Form.Input
+      <label for='password'>Password: </label>
+      <input
         type="text"
-        label="Password: "
-        onChange={handleChangePassword}
-        value={password}
+        id='password'
+        name='password'
         placeholder='password'
+        value={password}
+        onChange={handleChangePassword}
       />
 
-      <Form.Button type="submit" className="ui button centered in form">
-        Log In
-      </Form.Button>
+      <button type="submit" value='Log In' />
 
-    </Form>
+    </form>
   )
 
 }

@@ -1,15 +1,13 @@
-import { Header }  from "semantic-ui-react"
-
 export default function Title() {
 	return (
 		<>
 			<br/>
-			<Header as='h1' textAlign="center">
+			<header as='h1' textAlign="center">
 				App Name Goes Here
-				<Header.Subheader>
+				<h3>
 					Brief Description Here
-				</Header.Subheader>
-			</Header>
+				</h3>
+			</header>
 			<br/>
 		</>
 	)

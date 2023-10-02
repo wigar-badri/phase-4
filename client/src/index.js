@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import 'semantic-ui-css/semantic.min.css'
 
 
 /* React Router
@@ -19,9 +18,9 @@ root.render( <RouterProvider router={router} /> );
 import './index.css';
 import App from './components/App';
 import ErrorPage from './components/ErrorPage';
-import Home from './components/Home';
-import Login from './components/Login';
-import SignUp from './components/Signup';
+import Home from './components/HomePage/Home';
+import Login from './components/HomePage/Login';
+import SignUp from './components/HomePage/Signup';
 import Dashboard from './components/Dashboard';
 import UsersList from './components/UsersList';
 import User from './components/User';
