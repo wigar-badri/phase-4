@@ -6,9 +6,9 @@ import Dashboard from "./Dashboard"
 // import { useState } from 'react'
 
 const POST_HEADERS = {
-  'Content-Type': 'application/json',
-  'Accepts': 'application/json'
-}
+	'Content-Type': 'application/json',
+	'Accepts': 'application/json'
+  }
 
 export default function HomePage() {
 
