@@ -4,7 +4,7 @@ export default function UserMini({user}) {
 
 	return (
 		<div>
-			<Link as='h3' to={`/users/${user.id}`}>{user.username}</Link>
+			<Link as='h3' to={`/users/${user.id}`} className="mini">{user.username}</Link>
 			<p>{`${user.trades.length}`} Trades</p>
 			<p>{`${user.saved_posts.length}`} Posts Saved</p>
 		</div>
