@@ -53,7 +53,7 @@ export async function getPostsLoader() {
 }
 
 export async function getPostsByIdLoader({params}) {
-    const response = await fetch(`/users/${params.id}`)
+    const response = await fetch(`/posts/${params.id}`)
     const postObj = await response.json()
     return response.ok
         ? postObj
