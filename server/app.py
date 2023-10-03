@@ -35,6 +35,7 @@ def index():
 def create_user():
     try:
         data = request.json
+        print(data)
         password_hash = bcrypt.generate_password_hash(data['password']).decode('utf-8')
         new_user = User(
             username=data['username'],
@@ -44,12 +45,13 @@ def create_user():
             level=data['level'],
             balance=data['balance']
         )
+        print(new_user)
         db.session.add(new_user)
         db.session.commit()
         session['user_id'] = new_user.id
         return make_response(jsonify(new_user.to_dict()), 201)
     except Exception as e:
-        return make_response(jsonify({ 'error': str(e) }), 406)
+        return make_response(jsonify({ 'error': 'This username is already taken' }), 406)
 
 # SESSION LOGIN #
 @app.post('/login')
@@ -62,7 +64,7 @@ def login():
         session['user_id'] = user.id
         return make_response(jsonify(user.to_dict()), 202)
     else:
-        return make_response(jsonify({ 'error': 'Invalid username or password' }), 401)
+        return make_response(jsonify({ 'error': "Username and Password don't match" }), 401)
 
 # LOGOUT #
 @app.delete('/logout')

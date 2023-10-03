@@ -1,9 +1,6 @@
 import { useState } from 'react'
-import { useLoaderData } from 'react-router-dom'
 
-export default function Login({currentUser, setCurrentUser}) {
-
-  const {attemptLogin} = useLoaderData()
+export default function Login({loginError, attemptLogin}) {
 
   // STATE //
 
@@ -27,33 +24,44 @@ export default function Login({currentUser, setCurrentUser}) {
   // RENDER //
 
   return (
-    <form className='user-form' onSubmit={handleSubmit}>
+    <div>
+      <br/>
 
       <h2>Welcome, returning user! Please enter your login information below.</h2>
+      <br/>
 
-      <label for='username'>Username: </label>
-      <input
-        type="text"
-        id='username'
-        name='username'
-        placeholder='username'
-        value={username}
-        onChange={handleChangeUsername}
-      />
+      <form className='user-form' onSubmit={handleSubmit}>
 
-      <label for='password'>Password: </label>
-      <input
-        type="text"
-        id='password'
-        name='password'
-        placeholder='password'
-        value={password}
-        onChange={handleChangePassword}
-      />
+        <label htmlFor='username'>Username: </label>
+        <input
+          type="text"
+          id='username'
+          name='username'
+          placeholder='username'
+          value={username}
+          onChange={handleChangeUsername}
+          required
+        />
+        <br/>
 
-      <button type="submit" value='Log In' />
+        <label htmlFor='password'>Password: </label>
+        <input
+          type="text"
+          id='password'
+          name='password'
+          placeholder='password'
+          value={password}
+          onChange={handleChangePassword}
+          required
+        />
+        <br/>
 
-    </form>
+        <button type="submit" value='Log In' >Log In</button>
+        <br/>
+
+      </form>
+      <p>{loginError.error}</p>
+    </div>
   )
 
 }

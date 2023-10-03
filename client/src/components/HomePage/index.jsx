@@ -3,7 +3,8 @@ import { useOutletContext } from 'react-router-dom'
 import Signup from './Signup'
 import Login from './Login'
 import Dashboard from "./Dashboard"
-// import { useState } from 'react'
+import { useState } from 'react'
+
 
 const POST_HEADERS = {
 	'Content-Type': 'application/json',
@@ -13,6 +14,10 @@ const POST_HEADERS = {
 export default function HomePage() {
 
 	const [currentUser, setCurrentUser] = useOutletContext()
+
+	const [signupError, setSignupError] = useState({})
+
+	const [loginError, setLoginError] = useState({})
 
 	async function attemptLogin(userInfo) {
 		const res = await fetch('/login', {
@@ -24,7 +29,8 @@ export default function HomePage() {
 			const data = await res.json()
 			setCurrentUser(data)
 		} else {
-			alert('Invalid sign up')
+			const error = await res.json()
+			setLoginError(error)
 		}
 	}
 
@@ -38,25 +44,26 @@ export default function HomePage() {
 		  	const data = await res.json()
 		  	setCurrentUser(data)
 		} else {
-			alert('Invalid sign up')
+			const error = await res.json()
+			setSignupError(error)
 		}
 	}
 
 	async function logout() {
 		fetch('/logout', { method: 'DELETE' })
-		return null
+		setCurrentUser(null)
 	}
 
 	// RENDER //
-  	if (!currentUser) {
+  	if (!currentUser?.id) {
     	// render Signup and Login if no currentUser
 		return (
 			<div>
 				<br/><br/>
 				<h1>Please log in or sign up.</h1>
 				<br/><br/>
-				<Login setCurrentUser={setCurrentUser} attemptLogin={attemptLogin} />
-				<Signup setCurrentUser={setCurrentUser} attemptSignup={attemptSignup} />
+				<Login setCurrentUser={setCurrentUser} loginError={loginError} attemptLogin={attemptLogin} />
+				<Signup setCurrentUser={setCurrentUser} signupError={signupError} attemptSignup={attemptSignup} />
 				<br/><br/>
 			</div>
 		)

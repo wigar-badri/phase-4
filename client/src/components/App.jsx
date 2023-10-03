@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom'
 
 import Heading from './Heading';
 import Footer from './Footer';
-import { checkSession } from '../loaders';
 
 // const POST_HEADERS = {
 //   'Content-Type': 'application/json',
@@ -31,7 +30,7 @@ export default function App() {
   return (
     <div className="App">
       <Heading />
-      <Outlet context={[[currentUser, setCurrentUser], checkSession]} />
+      <Outlet context={[currentUser, setCurrentUser]} />
       <Footer />
     </div>
   );

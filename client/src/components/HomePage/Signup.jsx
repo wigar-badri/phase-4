@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function SignUp ({attemptSignup}) {
+export default function SignUp ({signupError, attemptSignup}) {
 
 	// NEW USER DETAILS STATE //
 	const [newUserDetails, setNewUserDetails] = useState({
@@ -25,10 +25,14 @@ export default function SignUp ({attemptSignup}) {
 	// RENDER //
     return (
 		<div>
+			<br/>
+
 			<h2>Welcome, new user! Enter your details below.</h2>
+			<br/>
+
 			<form onSubmit={handleSubmitNewUser}>
 
-				<label for='username'>Username: </label>
+				<label htmlFor='username'>Username: </label>
 				<input
 					type="text"
 					id="username"
@@ -36,9 +40,11 @@ export default function SignUp ({attemptSignup}) {
 					placeholder='username'
 					value={newUserDetails.username}
 					onChange={handleInputChange}
+					required
 				/>
+				<br/>
 
-				<label for='password'>Username: </label>
+				<label htmlFor='password'>Password: </label>
 				<input
 					type="text"
 					id="password"
@@ -46,9 +52,11 @@ export default function SignUp ({attemptSignup}) {
 					placeholder='password'
 					value={newUserDetails.password}
 					onChange={handleInputChange}
+					required
 				/>
+				<br/>
 
-				<label for='password'>Username: </label>
+				<label htmlFor='first_name'>First Name: </label>
 				<input
 					type="text"
 					id="first_name"
@@ -56,9 +64,11 @@ export default function SignUp ({attemptSignup}) {
 					placeholder='first name'
 					value={newUserDetails.first_name}
 					onChange={handleInputChange}
-				/><br/>
+					required
+				/>
+				<br/>
 
-				<label for='password'>Username: </label>
+				<label htmlFor='last_name'>Last Name: </label>
 				<input
 					type="text"
 					id="last_name"
@@ -66,11 +76,14 @@ export default function SignUp ({attemptSignup}) {
 					placeholder='last name'
 					value={newUserDetails.last_name}
 					onChange={handleInputChange}
-				/><br/>
+					required
+				/>
+				<br/>
 
-				<button type="submit" value="Sign Up" />
-
+				<button type="submit" value='Sign Up' >Sign Up</button>
+				<br/>
 			</form>
+			<p>{signupError.error}</p>
 		</div>
     )
 }
