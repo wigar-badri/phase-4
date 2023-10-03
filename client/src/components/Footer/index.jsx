@@ -4,7 +4,7 @@ export default function Footer() {
         <>
             <br/><br/><br/><br/><br/><br/>
             <div id="footer" className="footer">
-                <header as='h3' textAlign="center">
+                <header as='h3'>
                     Footer Coming Soon
                     <h3>
                         Socials Go Here

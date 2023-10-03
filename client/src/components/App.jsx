@@ -10,6 +10,7 @@ export default function App() {
 
   // CURRENT USER STATE //
   const [currentUser, setCurrentUser] = useState(null)
+  
 
   return (
     <div className="App">

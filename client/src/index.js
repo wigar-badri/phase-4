@@ -19,9 +19,7 @@ import './index.css';
 import App from './components/App';
 import ErrorPage from './components/ErrorPage';
 import HomePage from './components/HomePage';
-import Login from './components/HomePage/Login';
-import SignUp from './components/HomePage/Signup';
-import Dashboard from './components/HomePage/Dashboard';
+import Home from './components/Home';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import StocksList from './components/StocksList';
@@ -47,21 +45,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [{
         index: true,
-        element: <HomePage />,
-        children: [
-          {
-            path: "dashboard",
-            element: <Dashboard />
-          },
-          {
-            path: "login",
-            element: <Login />
-          },
-          {
-            path: "signup",
-            element: <SignUp />
-          }
-        ]
+        element: <Home />,
+      },
+      {
+        path: 'homepage',
+        element: <HomePage />
       },
       {
         path: "users",

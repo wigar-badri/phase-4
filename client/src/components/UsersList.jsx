@@ -1,3 +1,4 @@
+import React from "react"
 import { useLoaderData, /*useOutletContext*/ } from "react-router-dom"
 
 import User from './User'
@@ -8,7 +9,7 @@ export default function UsersList() {
 	// const [currentUser] = useOutletContext()
 
 	// LIST OF ALL USERS EXCLUDING CURRENT USER //
-	const userList = useLoaderData()
+	const [...userList] = useLoaderData()
 	// const filteredUserList = userList.filter( (user) => user.id !== currentUser.id )
 	const mappedUserList = userList.map( user => <User key={user.id} user={user} /> )
 
