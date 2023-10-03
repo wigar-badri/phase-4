@@ -6,15 +6,6 @@ export default function NavBar({ currentUser }) {
             <Link to="/">
                 Home
             </Link>
-			<Link to={currentUser ? `dashboard` : "/login"}>
-                Log In
-            </Link>
-			<Link to={currentUser ? `dashboard` : "/signup"}>
-                Sign Up
-            </Link>
-			<Link to={currentUser ? `dashboard` : "/"}>
-                Dashboard
-            </Link>
             <Link to="/users">
                 Users
             </Link>

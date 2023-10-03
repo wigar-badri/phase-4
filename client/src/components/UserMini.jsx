@@ -1,4 +1,4 @@
-export default function User({user}) {
+export default function UserMini({user}) {
 
 	return (
 		<div>

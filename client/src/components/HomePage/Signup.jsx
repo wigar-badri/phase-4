@@ -24,52 +24,53 @@ export default function SignUp ({attemptSignup}) {
 
 	// RENDER //
     return (
-		<form onSubmit={handleSubmitNewUser}>
-
+		<div>
 			<h2>Welcome, new user! Enter your details below.</h2>
+			<form onSubmit={handleSubmitNewUser}>
 
-			<label for='username'>Username: </label>
-			<input
-				type="text"
-				id="username"
-				name="username"
-				placeholder='username'
-				value={newUserDetails.username}
-				onChange={handleInputChange}
-			/>
+				<label for='username'>Username: </label>
+				<input
+					type="text"
+					id="username"
+					name="username"
+					placeholder='username'
+					value={newUserDetails.username}
+					onChange={handleInputChange}
+				/>
 
-			<label for='password'>Username: </label>
-			<input
-				type="text"
-				id="password"
-				name="password"
-				placeholder='password'
-				value={newUserDetails.password}
-				onChange={handleInputChange}
-			/>
+				<label for='password'>Username: </label>
+				<input
+					type="text"
+					id="password"
+					name="password"
+					placeholder='password'
+					value={newUserDetails.password}
+					onChange={handleInputChange}
+				/>
 
-			<label for='password'>Username: </label>
-			<input
-				type="text"
-				id="first_name"
-				name="first_name"
-				placeholder='first name'
-				value={newUserDetails.first_name}
-				onChange={handleInputChange}
-			/><br/>
+				<label for='password'>Username: </label>
+				<input
+					type="text"
+					id="first_name"
+					name="first_name"
+					placeholder='first name'
+					value={newUserDetails.first_name}
+					onChange={handleInputChange}
+				/><br/>
 
-			<label for='password'>Username: </label>
-			<input
-				type="text"
-				id="last_name"
-				name="last_name"
-				placeholder='last name'
-				value={newUserDetails.last_name}
-				onChange={handleInputChange}
-			/><br/>
+				<label for='password'>Username: </label>
+				<input
+					type="text"
+					id="last_name"
+					name="last_name"
+					placeholder='last name'
+					value={newUserDetails.last_name}
+					onChange={handleInputChange}
+				/><br/>
 
-			<button type="submit" value="Sign Up" />
+				<button type="submit" value="Sign Up" />
 
-		</form>
+			</form>
+		</div>
     )
 }

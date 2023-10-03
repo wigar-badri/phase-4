@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+
+
 export default function Home() {
 
 	return (
@@ -5,9 +8,9 @@ export default function Home() {
 			<br/><br/>
 			<h1>HOME PAGE</h1>
 			<br/><br/>
-			<h3 href="/">Log In</h3>
+			<Link to="/">Log In</Link>
 			<br/><br/>
-			<h3 href="/">Sign Up</h3>
+			<Link to="/">Sign Up</Link>
 			<br/><br/>
 		</>
 	)

@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom'
 import Signup from './Signup'
 import Login from './Login'
 import Dashboard from "./Dashboard"
-import { useState } from 'react'
+// import { useState } from 'react'
 
 const POST_HEADERS = {
   'Content-Type': 'application/json',
@@ -13,7 +13,6 @@ const POST_HEADERS = {
 export default function HomePage() {
 
 	const [currentUser, setCurrentUser] = useOutletContext()
-	const [hasAccount, setHasAccount] = useState(true)
 
 	async function attemptLogin(userInfo) {
 		const res = await fetch('/login', {
@@ -51,29 +50,16 @@ export default function HomePage() {
 	// RENDER //
   	if (!currentUser) {
     	// render Signup and Login if no currentUser
-		if (hasAccount) {
-			return (
-				<div>
-					<h1>Please log in.</h1>
-					<br/><br/>
-					<Login setCurrentUser={setCurrentUser} attemptLogin={attemptLogin} />
-					<br/><br/>
-					<button onClick={() => setHasAccount(!hasAccount)}>Sign up instead</button>
-				</div>
-			)
-		}
-
-		else {
-			return (
-				<div>
-					<h1>Please sign up.</h1>
-					<br/><br/>
-					<Signup setCurrentUser={setCurrentUser} attemptSignup={attemptSignup} />
-					<br/><br/>
-					<button onClick={() => setHasAccount(!hasAccount)}>Log in instead</button>
-				</div>
-			)
-		}
+		return (
+			<div>
+				<br/><br/>
+				<h1>Please log in or sign up.</h1>
+				<br/><br/>
+				<Login setCurrentUser={setCurrentUser} attemptLogin={attemptLogin} />
+				<Signup setCurrentUser={setCurrentUser} attemptSignup={attemptSignup} />
+				<br/><br/>
+			</div>
+		)
     }
 
 	else {

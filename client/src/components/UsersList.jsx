@@ -1,7 +1,7 @@
 import React from "react"
 import { useLoaderData, /*useOutletContext*/ } from "react-router-dom"
 
-import User from './User'
+import UserMini from './UserMini'
 
 export default function UsersList() {
 
@@ -11,7 +11,7 @@ export default function UsersList() {
 	// LIST OF ALL USERS EXCLUDING CURRENT USER //
 	const [...userList] = useLoaderData()
 	// const filteredUserList = userList.filter( (user) => user.id !== currentUser.id )
-	const mappedUserList = userList.map( user => <User key={user.id} user={user} /> )
+	const mappedUserList = userList.map( user => <UserMini key={user.id} user={user} /> )
 
 	// RENDER //
 	return (
