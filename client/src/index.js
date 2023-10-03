@@ -18,10 +18,10 @@ root.render( <RouterProvider router={router} /> );
 import './index.css';
 import App from './components/App';
 import ErrorPage from './components/ErrorPage';
-import Home from './components/HomePage/Home';
+import HomePage from './components/HomePage';
 import Login from './components/HomePage/Login';
 import SignUp from './components/HomePage/Signup';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/HomePage/Dashboard';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import StocksList from './components/StocksList';
@@ -30,7 +30,7 @@ import PostsList from './components/PostsList';
 import Post from './components/Post';
 
 // LOADERS //
-import { getUsersLoader, getUsersByIdLoader, getStocksLoader, getStocksByIdLoader, getPostsLoader, getPostsByIdLoader, attemptLogin, attemptSignup, checkSession } from './loaders';
+import { getUsersLoader, getUsersByIdLoader, getStocksLoader, getStocksByIdLoader, getPostsLoader, getPostsByIdLoader } from './loaders';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -45,25 +45,23 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-    children: [
-      {
+    children: [{
         index: true,
-        element: <Home />
-      },
-      {
-        path: "login",
-        element: <Login />,
-        loader: attemptLogin
-      },
-      {
-        path: "signup",
-        element: <SignUp />,
-        loader: attemptSignup
-      },
-      {
-        path: "dashboard",
-        element: <Dashboard />,
-        loader: checkSession
+        element: <HomePage />,
+        children: [
+          {
+            path: "dashboard",
+            element: <Dashboard />
+          },
+          {
+            path: "login",
+            element: <Login />
+          },
+          {
+            path: "signup",
+            element: <SignUp />
+          }
+        ]
       },
       {
         path: "users",

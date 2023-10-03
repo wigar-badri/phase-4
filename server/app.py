@@ -3,7 +3,7 @@
 from flask import Flask, jsonify, request, session, make_response
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
-# from flask_cors import CORS
+from flask_cors import CORS
 
 from models import db, User, Stock, Post
 
@@ -13,7 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
-# CORS(app)
+CORS(app)
 
 migrate = Migrate(app, db)
 

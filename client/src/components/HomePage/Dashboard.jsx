@@ -1,5 +1,5 @@
-import PostMini from './PostMini';
-import StockMini from './StockMini';
+import PostMini from '../PostMini';
+import StockMini from '../StockMini';
 
 export default function Dashboard({currentUser, logout}){
 

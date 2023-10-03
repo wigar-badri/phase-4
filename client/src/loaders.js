@@ -1,7 +1,4 @@
-const POST_HEADERS = {
-	'Content-Type': 'application/json',
-	'Accepts': 'application/json'
-}
+
 
 export async function checkSession() {
 	const response = await fetch('/check_session')
@@ -13,36 +10,6 @@ export async function checkSession() {
 			? {currentUserData}
 			: alert('No current user')
 	}
-}
-
-// LOGIN, SIGNUP, AND LOGOUT FNS //
-export async function attemptLogin(userInfo) {
-	const res = await fetch('/login', {
-		method: 'POST',
-		headers: POST_HEADERS,
-		body: JSON.stringify(userInfo)
-	})
-	const currentUser = await res.json()
-	return res.ok
-		? {currentUser}
-		: alert('Invalid login')
-}
-
-export async function attemptSignup({userInfo}) {
-	const res = await fetch('/users', {
-	  method: 'POST',
-	  headers: POST_HEADERS,
-	  body: JSON.stringify(userInfo)
-	})
-	const currentUser = await res.json()
-	return res.ok
-		? {currentUser}
-		: alert('Invalid sign up')
-}
-
-export async function logout() {
-	fetch('/logout', { method: 'DELETE' })
-	return null
 }
 
 export async function getUsersLoader() {

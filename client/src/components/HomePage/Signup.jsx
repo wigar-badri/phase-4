@@ -22,6 +22,20 @@ export default function SignUp ({attemptSignup}) {
 		attemptSignup(newUserDetails)
 	}
 
+	async function attemptSignup(userInfo) {
+		const res = await fetch('/users', {
+			method: 'POST',
+		  	headers: POST_HEADERS,
+		  	body: JSON.stringify(userInfo)
+		})
+		if (res.ok) {
+		  	const data = await res.json()
+		  	setCurrentUser(data)
+		} else {
+			alert('Invalid sign up')
+		}
+	}
+
 	// RENDER //
     return (
 		<form onSubmit={handleSubmitNewUser}>

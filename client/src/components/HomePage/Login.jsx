@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 
-export default function Login() {
+export default function Login({currentUser, setCurrentUser}) {
 
   const {attemptLogin} = useLoaderData()
 
