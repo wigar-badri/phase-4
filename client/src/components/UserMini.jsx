@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 export default function UserMini({user}) {
 
 	return (
-		<div className = "mini">
+		<div className="mini">
 			<Link as='h3' to={`/users/${user.id}`}>
 				{user.username}
 			</Link>
